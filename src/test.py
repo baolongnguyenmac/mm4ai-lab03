@@ -1,4 +1,5 @@
-from graph import *
+from graph import Graph
+from support import save_path
 
 # main
 g = Graph()

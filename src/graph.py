@@ -1,5 +1,5 @@
-from vertex import *
-from support import *
+from vertex import Vertex
+from support import get_log
 
 
 class Graph:
@@ -7,7 +7,7 @@ class Graph:
         """
         Module constructing Graph class.
         """
-        self.vertList = {}
+        self.vertList: dict[int, Vertex] = {}
         self.numVertices = 0
 
     def addVertex(self, key):
