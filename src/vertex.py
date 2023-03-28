@@ -10,6 +10,16 @@ class Vertex:
         """
         self.id = key  # assigning `id` attribute by the input `key`.
         self.connectedTo = {}  # handling which vertex is connected with this vertex.
+        self.group = ''
+
+    def get_diff_cost(self):
+        internal_cost, external_cost = 0, 0
+        for node in self.connectedTo.keys():
+            if node.group == self.group:
+                internal_cost += self.connectedTo[node]
+            else:
+                external_cost += self.connectedTo[node]
+        return external_cost - internal_cost
 
     def addNeighbor(self, nbr, weight=0):
         """
