@@ -5,21 +5,80 @@ title: "\\thetitle"
 # Thông tin chung
 
 - Thành viên:
-    - Trần Xuân Lộc - 22C11064
     - Nguyễn Bảo Long - 22C11065
+    - Nguyễn Thị Thu Hằng - 22C15027
 
 - Bảng phân công công việc:
 
 **Công việc**|**Người thực hiện**
 :------------------:|:----------------------------------------:
-Tái cấu trúc đồ thị theo yêu cầu của thầy|Xuân Lộc
-Viết hàm và tài liệu cho thuật toán `DFS`|Bảo Long
-Viết hàm và tài liệu cho thuật toán `BFS`|Xuân Lộc
+Viết hàm và tài liệu cho thuật toán sử dụng `DFS`|Thu Hằng
+Viết hàm và tài liệu cho thuật toán sử dụng `BFS`|Thu Hằng
+Viết hàm và tài liệu cho thuật toán `Kosaraju`|Thu Hằng
+Viết hàm và tài liệu cho thuật toán `Kernighan–Lin`|Bảo Long
 
 \newpage
 
-# Cấu trúc mã nguồn
+# Phát biểu bài toán
 
+- Cho trước đồ thị $G=(V, E)$, trong đó:
+    - $V$ là tập hợp chứa $n$ đỉnh.
+    - $E$ là tập cạnh.
+
+- Tiêu chí phân hoạch: (1) - Phân hoạch dựa trên trọng số các cạnh giữa các phân hoạch; (2) - Phân hoạch để tìm thành phần liên thông.
+
+- **Tiêu chí (1)**. Xét bài toán phân hoạch cân bằng $(k, v)$, mục tiêu của bài toán là phân hoạch đồ thị $G$ thành $k$ thành phần $V_1, V_2,\dots, V_k$ không giao nhau, mỗi thành phần chứa tối đa $v\times \frac{n}{k}$ đỉnh, sao cho tổng trọng số của các cạnh nối giữa các phân hoạch là nhỏ nhất. Trong trường hợp đồ thị không có trọng số, thuật toán sẽ cực tiểu số lượng cạnh nối giữa các phân hoạch.
+
+- **Tiêu chí (2)**. Phân hoạch đồ thị thành các thành phần sao cho các thành phần này liên thông mạnh.
+
+- Ứng với mỗi tiêu chí sẽ là các thuật toán được trình bày trong phần **Các thuật toán phân hoạch đồ thị**.
+
+# Cấu trúc chương trình
+
+- Cấu trúc source code được sử dụng lại từ Lab 2 và bổ sung thêm các thuật toán phân hoạch đồ thị vào lớp `Graph` như hình dưới:
+
+![Tổ chức dữ liệu đồ thị.](./img/schema.png)
+
+# Các thuật toán phân hoạch đồ thị
+
+## Tiêu chí (1)
+
+## Thuật toán `Kernighan–Lin`
+
+- Ý tưởng: Thuật toán được đề xuất vào năm 1970, thực hiện phân hoạch tham lam. Cụ thể:
+    - Thuật toán chia ngẫu nhiên các đỉnh thành hai nhóm bằng nhau $(V_1, V_2)$ ($|V_1| = |V_2| = \frac{n}{2}$).
+    - Thuật toán sẽ hoán đổi các cặp đỉnh của hai nhóm để sinh ra hai nhóm mới $(V_1', V_2')$ sao cho $|V_1'| = |V_2'| = \frac{n}{2}$ và chi phí của phân hoạch mới phải nhỏ hơn hoặc bằng chi phí của phân hoạch cũ.
+    - Thuật toán lặp lại quá trình hoán đổi các cặp đỉnh cho đến khi đã lặp đủ số lần quy định trước hoặc cho đến khi đạt được cực tiểu cục bộ (không hoán đổi được cặp đỉnh nào cho chi phí phân hoạch nhỏ hơn).
+
+- Kí hiệu:
+    - Với mỗi đỉnh $v$ trong đồ thị, gọi $E_v, I_v$ lần lượt là external cost và internal cost của đỉnh $v$ (được tính bằng cách lấy tổng trọng số của các đỉnh nối từ $v$ đến các đỉnh nằm ngoài/trong phân hoạch mà $v$ đang thuộc về). Giá trị $D_v$ của đỉnh $v$ là:
+
+        $$D_v = E_v - I_v$$
+
+    - Gọi $gain$ là chi phí giảm sút sau khi hoán đổi 2 đỉnh $v_1\in V_1$ và $v_2\in V_2$:
+
+        $$gain = D_1+D_2-2w_{1,2}$$
+
+- Thuật toán:
+    - Khởi tạo ngẫu nhiên 2 nhóm A, B có cùng kích thước.
+    - Lặp lại các bước:
+        - Tính giá trị $D$ cho từng đỉnh trong mỗi nhóm
+        - Tìm các cặp đỉnh thuộc 2 nhóm A, B có $gain$ lớn nhất
+        - Hoán đổi 2 đỉnh và cập nhật lại các giá trị $D$.
+        - Dừng thuật toán khi $gain < 0$
+
+- Nhận xét: Thuật toán hoán đổi một cách tham lam (thể hiện ở bước chọn $gain$ lớn nhất). Do đó, có thể dễ dàng rơi vào các lời giải cục bộ tùy theo trạng thái khởi tạo ngẫu nhiên ban đầu. Ví dụ, khi thực hiện phân hoạch trên đồ thị sau:
+
+## Tiêu chí (2) 
+
+# Tài liệu tham khảo
+
+- Kernighan, Brian W., and Shen Lin. "An efficient heuristic procedure for partitioning graphs." The Bell system technical journal 49.2 (1970): 291-307.
+- Phân hoạch đồ thị: https://patterns.eecs.berkeley.edu/?page_id=571
+- Phân hoạch đồ thị: https://en.wikipedia.org/wiki/Graph_partition
+
+
+ <!-- #####################
 - Tại đây mô tả về schema của các class và thông tin (tóm tắt, đầu vào, đầu ra) của các hàm.
 
 
@@ -293,8 +352,4 @@ Phần này sẽ tập trung mô tả các hàm hỗ trợ ghi dữ liệu và h
 
         ![Minh họa thuật toán BFS bằng thuật toán duyệt theo chiều rộng với cây tìm kiếm. Thứ tự duyệt được thể hiện trong hình tròn màu xanh.](./img/tree_bfs.png){height=60%}
 
-\newpage
-
-# Tài liệu tham khảo
-
-- Một số bài toán cơ bản trong phân tích dữ liệu. (n.d.). Thuc Nguyen Dinh.
+\newpage -->
