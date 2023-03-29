@@ -1,6 +1,6 @@
 from graph import Graph
 from algorithms import KL
-
+'''
 g = Graph()
 for i in range(8):
     g.addVertex(i)
@@ -42,5 +42,22 @@ g.addEdge(7, 6, 8)
 #     [4, 1, 3, 0] [2, 5, 6, 7] 22
 #     [0, 1, 2, 3] [4, 5, 6, 7] 2 (global minimum)
 kl = KL(g)
-kl.partition()
+kl.partition()'''
 
+g = Graph()
+g = g.build_graph_from_file('./src/graph_inp.txt')
+"""for i in range(5):
+    g.addVertex(i)
+g.addEdge(0, 2)
+g.addEdge(1, 0)
+g.addEdge(2, 1)
+g.addEdge(0,3)
+g.addEdge(3,4)"""
+
+
+for v in g:
+    for w in v.getConnections():
+        print("( %s , %s )" % (v.getId(), w.getId()))
+
+SCCs = g.Find_SCC_by_Kosaraju()
+print(SCCs)

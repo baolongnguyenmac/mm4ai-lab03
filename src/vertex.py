@@ -1,6 +1,3 @@
-from support import *
-
-
 class Vertex:
     def __init__(self, key):
         """

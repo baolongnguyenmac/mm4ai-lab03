@@ -15,7 +15,7 @@ title: "\\thetitle"
 Viết hàm và tài liệu cho thuật toán sử dụng `DFS`|Thu Hằng
 Viết hàm và tài liệu cho thuật toán sử dụng `BFS`|Thu Hằng
 Viết hàm và tài liệu cho thuật toán `Kosaraju`|Thu Hằng
-Viết hàm và tài liệu cho thuật toán `Kernighan–Lin`|Bảo Long
+Viết hàm và tài liệu cho thuật toán `Kernighan-Lin`|Bảo Long
 
 \newpage
 
@@ -27,11 +27,13 @@ Viết hàm và tài liệu cho thuật toán `Kernighan–Lin`|Bảo Long
 
 - Tiêu chí phân hoạch: (1) - Phân hoạch dựa trên trọng số các cạnh giữa các phân hoạch; (2) - Phân hoạch để tìm thành phần liên thông.
 
-- **Tiêu chí (1)**. Xét bài toán phân hoạch cân bằng $(k, v)$, mục tiêu của bài toán là phân hoạch đồ thị $G$ thành $k$ thành phần $V_1, V_2,\dots, V_k$ không giao nhau, mỗi thành phần chứa tối đa $v\times \frac{n}{k}$ đỉnh, sao cho tổng trọng số của các cạnh nối giữa các phân hoạch là nhỏ nhất. Trong trường hợp đồ thị không có trọng số, thuật toán sẽ cực tiểu số lượng cạnh nối giữa các phân hoạch.
+- **Tiêu chí (1)**. Xét bài toán phân hoạch cân bằng $(k, v)$, mục tiêu của bài toán là phân hoạch đồ thị $G$ thành $k$ thành phần $V_1, V_2,\dots, V_k$ không giao nhau, mỗi thành phần chứa tối đa $v\times \frac{n}{k}$ đỉnh, sao cho tổng trọng số của các cạnh nối giữa các phân hoạch là nhỏ nhất. Trong trường hợp đồ thị không có trọng số, thuật toán sẽ cực tiểu số lượng cạnh nối giữa các phân hoạch. 
 
 - **Tiêu chí (2)**. Phân hoạch đồ thị thành các thành phần sao cho các thành phần này liên thông mạnh.
 
 - Ứng với mỗi tiêu chí sẽ là các thuật toán được trình bày trong phần **Các thuật toán phân hoạch đồ thị**.
+
+\newpage
 
 # Cấu trúc chương trình
 
@@ -39,11 +41,13 @@ Viết hàm và tài liệu cho thuật toán `Kernighan–Lin`|Bảo Long
 
 ![Tổ chức dữ liệu đồ thị.](./img/schema.png)
 
+\newpage
+
 # Các thuật toán phân hoạch đồ thị
 
 ## Tiêu chí (1)
 
-## Thuật toán `Kernighan–Lin`
+### Thuật toán `Kernighan-Lin`
 
 - Ý tưởng: Thuật toán được đề xuất vào năm 1970, thực hiện phân hoạch tham lam. Cụ thể:
     - Thuật toán chia ngẫu nhiên các đỉnh thành hai nhóm bằng nhau $(V_1, V_2)$ ($|V_1| = |V_2| = \frac{n}{2}$).
@@ -51,11 +55,12 @@ Viết hàm và tài liệu cho thuật toán `Kernighan–Lin`|Bảo Long
     - Thuật toán lặp lại quá trình hoán đổi các cặp đỉnh cho đến khi đã lặp đủ số lần quy định trước hoặc cho đến khi đạt được cực tiểu cục bộ (không hoán đổi được cặp đỉnh nào cho chi phí phân hoạch nhỏ hơn).
 
 - Kí hiệu:
+    - Chi phí phân hoạch: Tổng trọng số của các cạnh nối các phân hoạch.
     - Với mỗi đỉnh $v$ trong đồ thị, gọi $E_v, I_v$ lần lượt là external cost và internal cost của đỉnh $v$ (được tính bằng cách lấy tổng trọng số của các đỉnh nối từ $v$ đến các đỉnh nằm ngoài/trong phân hoạch mà $v$ đang thuộc về). Giá trị $D_v$ của đỉnh $v$ là:
 
         $$D_v = E_v - I_v$$
 
-    - Gọi $gain$ là chi phí giảm sút sau khi hoán đổi 2 đỉnh $v_1\in V_1$ và $v_2\in V_2$:
+    - Gọi $gain$ là chi phí giảm sút sau khi hoán đổi 2 đỉnh $v_1\in V_1$ và $v_2\in V_2$. Quy ước $w_{1,2} = 0$ nếu $v_1$ không liên kết với $v_2$. $gain$ được tính như sau:
 
         $$gain = D_1+D_2-2w_{1,2}$$
 
@@ -67,9 +72,22 @@ Viết hàm và tài liệu cho thuật toán `Kernighan–Lin`|Bảo Long
         - Hoán đổi 2 đỉnh và cập nhật lại các giá trị $D$.
         - Dừng thuật toán khi $gain < 0$
 
-- Nhận xét: Thuật toán hoán đổi một cách tham lam (thể hiện ở bước chọn $gain$ lớn nhất). Do đó, có thể dễ dàng rơi vào các lời giải cục bộ tùy theo trạng thái khởi tạo ngẫu nhiên ban đầu. Ví dụ, khi thực hiện phân hoạch trên đồ thị sau:
+- Nhận xét: Thuật toán hoán đổi một cách tham lam (thể hiện ở bước chọn $gain$ lớn nhất). Do đó, có thể dễ dàng rơi vào các lời giải cục bộ tùy theo trạng thái khởi tạo ngẫu nhiên ban đầu. Ví dụ, khi thực hiện phân hoạch trên đồ thị hình \ref{fig:graph}, có thể sinh ra 2 output (lời giải cục bộ và lời giải toàn cục) như hình \ref{fig:local_sol} và \ref{fig:global_sol}.
 
-## Tiêu chí (2) 
+    ![Đồ thị cần phân hoạch.\label{fig:graph}](./img/vis-kl.png){height=30%}
+
+    ![Lời giải cục bộ. Màu sắc của đỉnh thể hiện phân hoạch mà đỉnh thuộc về.\label{fig:local_sol}](./img/local_sol.png){height=30%}
+
+    ![Lời giải toàn cục. Màu sắc của đỉnh thể hiện phân hoạch mà đỉnh thuộc về.\label{fig:global_sol}](./img/global_sol.png){height=30%}
+
+
+## Tiêu chí (2)
+
+### Thuật toán ...
+### Thuật toán ...
+### Thuật toán ...
+
+\newpage
 
 # Tài liệu tham khảo
 
