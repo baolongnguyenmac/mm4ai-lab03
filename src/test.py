@@ -45,7 +45,7 @@ kl = KL(g)
 kl.partition()'''
 
 g = Graph()
-g = g.build_graph_from_file('./src/graph_inp.txt')
+g = g.build_graph_from_file('./graph_inp.txt')
 """for i in range(5):
     g.addVertex(i)
 g.addEdge(0, 2)

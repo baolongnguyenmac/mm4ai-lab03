@@ -197,8 +197,7 @@ class Graph:
         # Mark the current node as visited
         vertex: Vertex = self.getVertex(vertex_ith)
         if vertex is None:
-            message = 'Invalid vertex id, could not found vertex id `' + \
-                str(vertex_ith) + '` in Graph'
+            message = 'Invalid vertex id, could not found vertex id `' + str(vertex_ith) + '` in Graph'
             raise ValueError(get_log(message, log_type='ERROR'))
         visited.append(vertex_ith)
 
